@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About</title>
+<link rel="icon" type="image/svg+xml" href="../favicon-skull.svg?v=3" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #f6f8f9;
+    color: #2B3135;
+    font-family: 'Avenir Next', 'Avenir Next forINTUIT', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    padding: 24px;
+  }
+  .page-stack {
+    width: min(820px, 100%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .version-fab{
+    position:fixed;
+    bottom:12px;
+    right:12px;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    height:32px;
+    padding:0;
+    border-radius:999px;
+    border:1px solid #d4dce1;
+    background:rgba(255,255,255,0.96);
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    overflow:hidden;
+    font-family:'Avenir Next','Avenir Next forINTUIT',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    font-size:12px;
+    line-height:1.2;
+    color:#2B3135;
+  }
+  .version-fab-options{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    max-width:0;
+    padding:0;
+    white-space:nowrap;
+    opacity:0;
+    transform:translateX(8px);
+    pointer-events:none;
+    transition:max-width 180ms ease, opacity 160ms ease, transform 160ms ease, padding 180ms ease;
+  }
+  .version-fab:hover .version-fab-options,
+  .version-fab:focus-within .version-fab-options{
+    max-width:260px;
+    padding:0 8px 0 12px;
+    opacity:1;
+    transform:translateX(0);
+    pointer-events:auto;
+  }
+  .version-fab-options a{
+    color:#16587A;
+    text-decoration:none;
+    padding:4px 6px;
+    border-radius:4px;
+  }
+  .version-fab-options a:hover{background:rgba(22,88,122,0.08)}
+  .version-fab-options a.active{
+    background:rgba(22,88,122,0.14);
+    font-weight:600;
+  }
+  .version-fab-trigger{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:999px;
+    background:transparent;
+    color:#2B3135;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+    flex-shrink:0;
+    transition:background-color 150ms ease;
+  }
+  .version-fab:hover .version-fab-trigger,
+  .version-fab:focus-within .version-fab-trigger{background:rgba(22,88,122,0.08)}
+  .card {
+    width: 100%;
+    border: 1px solid #d4dce1;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(43, 49, 53, 0.08);
+    padding: 34px;
+  }
+  h1 {
+    margin: 0 0 14px 0;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  p {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .learning-plan-link-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+  .about-link-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 12px;
+  }
+  .about-card {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+  .about-card h1,
+  .about-card .about-body {
+    margin: 0;
+  }
+  .about-card .about-link-stack,
+  .about-card .url-list,
+  .about-card .actions {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .learning-plan-link {
+    color: #16587A;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  .learning-plan-link:hover {
+    text-decoration: underline;
+  }
+  .external-link-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    color: #16587A;
+  }
+  .external-link-icon.github-skull-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: #1f2428;
+    color: #ffffff;
+  }
+  .external-link-icon.github-skull-icon.on-dark-bg {
+    color: #ffffff;
+  }
+  .external-link-icon.github-skull-icon.on-light-bg {
+    color: #21262a;
+  }
+  .url-list {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #e2e9ed;
+    background: #f9fbfc;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .url-list code {
+    font-size: 13px;
+  }
+  .actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(22, 88, 122, 0.8);
+    color: #16587A;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1;
+    background: #fff;
+  }
+  .btn:hover { background: rgba(22, 88, 122, 0.08); }
+  .concepts-card {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+  .concepts-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .concept-item {
+    border: 1px solid #e2e9ed;
+    border-radius: 8px;
+    background: #f9fbfc;
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .concept-item h3 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+  .concept-item p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #2B3135;
+  }
+  .concept-bullets {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #2B3135;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .concept-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .concept-see-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #16587A;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+  .concept-see-more:hover {
+    text-decoration: underline;
+  }
+  .timeline-card {
+    min-height: 980px;
+  }
+  .timeline-title {
+    margin: 0 0 6px 0;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .timeline-subtitle {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: #5f6368;
+    line-height: 1.45;
+  }
+  .months-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .month-card {
+    border: 1px solid #e2e9ed;
+    border-radius: 8px;
+    background: #f9fbfc;
+    padding: 14px;
+  }
+  .month-title {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .month-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  .month-table th {
+    padding: 6px 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7278;
+    border-bottom: 1px solid #e2e9ed;
+  }
+  .month-table td {
+    height: 34px;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 13px;
+    border-bottom: 1px solid #edf2f5;
+    border-right: 1px solid #edf2f5;
+  }
+  .month-table td:last-child { border-right: none; }
+  .month-table tr:last-child td { border-bottom: none; }
+  .month-table td.empty {
+    background: rgba(238, 244, 247, 0.6);
+    color: transparent;
+  }
+  .day-cell {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .month-table td.weekend,
+  .month-table td.holiday {
+    background: #f3f5f7;
+    color: #9aa3aa;
+  }
+  .month-table td.weekend .day-cell,
+  .month-table td.holiday .day-cell {
+    text-decoration: line-through;
+    opacity: 0.8;
+  }
+  .month-table td.has-indicator::after {
+    content: none;
+  }
+  .month-table td.has-phase {
+    --phase-fill: #dcebf3;
+    --phase-text: #0f3f58;
+    position: relative;
+  }
+  .month-table td.phase-1 { --phase-color: #16587A; }
+  .month-table td.phase-2 { --phase-color: #0F8A61; }
+  .month-table td.phase-3 { --phase-color: #6C4BC5; }
+  .month-table td.phase-4 { --phase-color: #B45309; }
+  .month-table td.phase-5 { --phase-color: #AD1457; }
+  .month-table td.phase-1 { --phase-fill: #d6e7f2; --phase-text: #0f4e73; }
+  .month-table td.phase-2 { --phase-fill: #d7efe7; --phase-text: #0f6a4b; }
+  .month-table td.phase-3 { --phase-fill: #e4dcf8; --phase-text: #4a2ea8; }
+  .month-table td.phase-4 { --phase-fill: #f8e5d1; --phase-text: #8b4509; }
+  .month-table td.phase-5 { --phase-fill: #f6d9e8; --phase-text: #8a1047; }
+  .month-table td.has-phase .day-cell {
+    color: var(--phase-text);
+    font-weight: 600;
+  }
+  .month-table td.has-phase .day-cell::before {
+    content: "";
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    top: 4px;
+    bottom: 4px;
+    background: var(--phase-fill);
+    border-radius: 0;
+    z-index: 0;
+  }
+  .month-table td.has-phase .day-cell > span {
+    position: relative;
+    z-index: 2;
+  }
+  .month-table td.is-today .day-cell::after {
+    content: "";
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    top: 4px;
+    bottom: 4px;
+    border: 1px solid currentColor;
+    border-radius: 0;
+    box-sizing: border-box;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .month-table td.is-today.phase-start .day-cell::after {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  .month-table td.is-today.phase-end .day-cell::after {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  .month-table td.is-today.phase-start.phase-end .day-cell::after {
+    border-radius: 8px;
+  }
+  .month-table td.has-phase.phase-start .day-cell::before {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  .month-table td.has-phase.phase-end .day-cell::before {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  .month-table td.has-phase.phase-start.phase-end .day-cell::before {
+    border-radius: 8px;
+  }
+  .month-table td.has-phase[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+    max-width: 220px;
+    width: max-content;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #d4dce1;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(43, 49, 53, 0.12);
+    color: #2B3135;
+    font-size: 12px;
+    line-height: 1.35;
+    text-align: left;
+    white-space: normal;
+    z-index: 20;
+    pointer-events: none;
+  }
+  .months-stack.phase-hover-active .month-table td {
+    opacity: 0.75;
+    transition: opacity 120ms ease, box-shadow 120ms ease;
+  }
+  .months-stack.phase-hover-active .month-table td.phase-hover-match {
+    opacity: 1;
+  }
+  .months-stack.phase-hover-active .month-table td.phase-hover-match .day-cell::before {
+    box-shadow: inset 0 0 0 1px rgba(21, 87, 121, 0.5);
+  }
+  .timeline-notes {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #6b7278;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+<nav class="version-fab" aria-label="Prototype version switcher">
+  <div class="version-fab-options">
+    <a href="../">A</a>
+    <a href="../3.0/">B</a>
+    <a href="../3.0/?variant=c">C</a>
+    <!-- <a class="active" href="./">About</a> -->
+  </div>
+  <button class="version-fab-trigger" type="button" aria-label="Open prototype switcher">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M2 4H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      <path d="M2 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      <path d="M2 12H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
+</nav>
+
+<div class="page-stack">
+  <main class="card about-card">
+    <h1>About this prototype repo</h1>
+    <p class="about-body">Collection of navigation prototypes for customer testing. Not high fiedlity&mdash;concepts only.</p>
+    <div class="about-link-stack">
+    <div class="learning-plan-link-row">
+      <a
+        class="learning-plan-link"
+        href="https://docs.google.com/document/d/1bxbhf-rgc2lgeypTSQesAD-fJRKADfEzYmYKdNMfXMo/edit?tab=t.0"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Learning plan here</a>
+      <a
+        class="external-link-icon"
+        href="https://docs.google.com/document/d/1bxbhf-rgc2lgeypTSQesAD-fJRKADfEzYmYKdNMfXMo/edit?tab=t.0"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open learning plan in a new window"
+        title="Open in new window"
+      >
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true">
+          <path d="M10 2H14V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M14 2L8.5 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M7 3H3.5C3.224 3 3 3.224 3 3.5V12.5C3 12.776 3.224 13 3.5 13H12.5C12.776 13 13 12.776 13 12.5V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+  <div class="learning-plan-link-row">
+    <a
+      class="learning-plan-link"
+      href="https://github.intuit.com/myoung8/nav-concept-tests"
+      target="_blank"
+      rel="noopener noreferrer"
+    >GitHub repo</a>
+    <a
+      class="external-link-icon github-skull-icon on-dark-bg"
+      href="https://github.intuit.com/myoung8/nav-concept-tests"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open GitHub repo in a new window"
+      title="Open in new window"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" fill-rule="evenodd" d="M7.0065 1.5c-0.39268 0 -0.78397 0.011 -1.17394 0.02978C3.50254 1.64196 1.5 3.37698 1.5 5.71992c0 0.73313 0.04363 1.84779 0.20876 2.4707 0.18652 0.70361 0.4825 1.35854 0.93799 1.83108 0.43778 0.4541 1.05579 0.7757 1.98518 0.7757 0.3276 0 0.59961 0.2529 0.62335 0.5797 0.03228 0.4441 0.24564 0.816 0.49186 1.102 0.00852 0.0099 0.01469 0.0147 0.01766 0.0167 0.00295 0.0021 0.0046 0.0027 0.00525 0.003 0.00061 0.0002 0.00692 0.0025 0.02215 0.0002 0.03483 -0.0051 0.10476 -0.0346 0.16512 -0.1192l0.0677 -0.0949c0.59951 -0.8406 1.80465 -0.9085 2.48818 -0.1288l0.0453 0.0517c0.14268 0.1627 0.37785 0.1593 0.5162 -0.0118l0.05039 -0.0623c0.64944 -0.8031 1.85501 -0.7829 2.47941 0.0382 0.073 0.0959 0.1551 0.1165 0.1923 0.1156 0.0173 -0.0004 0.0255 -0.0047 0.0292 -0.0072 0.0025 -0.0016 0.0182 -0.0119 0.0358 -0.0507 0.0894 -0.1966 0.1642 -0.4093 0.2075 -0.6279 0.3834 -1.9347 0.5103 -3.7703 0.3828 -5.57853 -0.1848 -2.61887 -2.0222 -4.38509 -4.27166 -4.49339C7.79047 1.511 7.39918 1.5 7.0065 1.5ZM5.77245 0.281226C6.17898 0.261654 6.59058 0.25 7.0065 0.25c0.41592 0 0.82753 0.011654 1.23405 0.031226C11.1755 0.42253 13.4735 2.73913 13.699 5.9352c0.1361 1.9289 -0.0006 3.87608 -0.4035 5.9095 -0.066 0.3331 -0.1759 0.6386 -0.2957 0.9022 -0.2286 0.5029 -0.6848 0.7783 -1.1726 0.7902 -0.4682 0.0114 -0.9205 -0.2178 -1.2176 -0.6086 -0.1348 -0.1772 -0.3744 -0.1797 -0.5125 -0.0088l-0.0504 0.0623c-0.62433 0.772 -1.77262 0.7975 -2.42815 0.0498l-0.0453 -0.0517c-0.14737 -0.1681 -0.39509 -0.1593 -0.53054 0.0306l-0.06771 0.0949c-0.23824 0.3341 -0.59753 0.5708 -1.00083 0.6301 -0.41925 0.0617 -0.85999 -0.0759 -1.17434 -0.4411 -0.26697 -0.3101 -0.54952 -0.7387 -0.69649 -1.2752 -1.00259 -0.1091 -1.77738 -0.5294 -2.35653 -1.1302C1.08739 10.2051 0.716109 9.32427 0.500495 8.51093 0.288026 7.70945 0.25 6.43976 0.25 5.71992 0.25 2.57667 2.91802 0.418653 5.77245 0.281226ZM7.28711 4.85962c0.55228 0 1 0.44771 1 1v0.73413c0 0.55228 -0.44772 1 -1 1 -0.55229 0 -1 -0.44772 -1 -1v-0.73413c0 -0.55229 0.44771 -1 1 -1Zm4.15429 1c0 -0.55229 -0.4477 -1 -1 -1 -0.55228 0 -0.99999 0.44771 -0.99999 1v0.73413c0 0.55228 0.44771 1 0.99999 1 0.5523 0 1 -0.44772 1 -1v-0.73413Z" clip-rule="evenodd" stroke-width="1"></path>
+      </svg>
+    </a>
+  </div>
+  </div>
+
+    <div class="url-list">
+      <div><code>/</code> - Dense List A (`index.html`)</div>
+      <div><code>/3.0/</code> - Dense List B (`3.0/index.html`)</div>
+      <div><code>/c/</code> - Dense List C (`c/index.html`)</div>
+      <div><code>/about/</code> - About page (`about/index.html`)</div>
+    </div>
+  </main>
+
+  <section class="card concepts-card" aria-labelledby="concepts-title">
+    <h2 id="concepts-title" class="concepts-title">Concepts</h2>
+
+    <article class="concept-item">
+      <h3>Concept A</h3>
+      <p>Primary hypothesis: A denser, list-based navigation without separate L1/2 panels saves space on screen and improves time to navigation, discoverability, and findability while providing a clear visual map of our product.</p>
+      <ul class="concept-bullets">
+        <li>QB customers who use the product regularly develop a mental map of where things live. The current vertical stack underserves that map by hiding top level nav items (apps) behind progressive disclosure.</li>
+        <li>A dense, always-visible list gives experienced customers a complete, scannable picture of the product (clear spatial memory) in a single glance (much like our create new fly-out).</li>
+        <li>Reducing the number of interactions required to reach any destination (no panel opens, no page transitions to orient) shortens task time and increases confidence.</li>
+        <li>This is a much more scalable solution if our L0s ever grow.</li>
+      </ul>
+      <div class="concept-links">
+        <a class="btn" href="../">Concept A</a>
+        <a
+          class="concept-see-more"
+          href="https://docs.google.com/document/d/1bxbhf-rgc2lgeypTSQesAD-fJRKADfEzYmYKdNMfXMo/edit?tab=t.0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>See more</span>
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" aria-hidden="true">
+            <path d="M10 2H14V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M14 2L8.5 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M7 3H3.5C3.224 3 3 3.224 3 3.5V12.5C3 12.776 3.224 13 3.5 13H12.5C12.776 13 13 12.776 13 12.5V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="concept-item">
+      <h3>Concept B</h3>
+      <p>Primary hypothesis: Our customers don't navigate to features but to modes. Before they look for "recurring invoices" they decide they're in Sales mode. A hub/spoke approach that reflects this mental model by helping ground them in context in a dedicated “mode view" before committing to a sub-task, which will reduce “wrong turns” and create natural discovery moments for adjacent features.</p>
+      <ul class="concept-bullets">
+        <li>In hub/spoke navigation, the L0 list acts as a launching pad, not a destination. Clicking an L0 item opens a dedicated panel (like a mini-hub) that surfaces L1/2 options, recently visited items, shortcuts, and contextual entry points for that domain.</li>
+        <li>Customers don't just need to find features, they need to orient within a domain before committing to a sub-task, and a panel gives them that moment.</li>
+        <li>This mirrors how customers think about their business: "I'm going into Sales mode" before "I need to find the recurring invoices setting."</li>
+      </ul>
+      <div class="concept-links">
+        <a class="btn" href="../3.0/">Concept B</a>
+        <a
+          class="concept-see-more"
+          href="https://docs.google.com/document/d/1bxbhf-rgc2lgeypTSQesAD-fJRKADfEzYmYKdNMfXMo/edit?tab=t.0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>See more</span>
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" aria-hidden="true">
+            <path d="M10 2H14V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M14 2L8.5 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M7 3H3.5C3.224 3 3 3.224 3 3.5V12.5C3 12.776 3.224 13 3.5 13H12.5C12.776 13 13 12.776 13 12.5V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="concept-item">
+      <h3>Concept C</h3>
+      <p>Primary hypothesis: Our customers know the outcome they need, yet we ask them to name the category that outcome lives in. An AI layer that routes "I need to see X, Y, Z" directly to the right object removes the need for customers to learn our taxonomy and affords us a minimalistic approach to navigation—because our navigation failure might not be a wayfinding problem, but an intent-matching problem.</p>
+      <div class="concept-links">
+        <a class="btn" href="../3.0/?variant=c">Concept C</a>
+        <a
+          class="concept-see-more"
+          href="https://docs.google.com/document/d/1bxbhf-rgc2lgeypTSQesAD-fJRKADfEzYmYKdNMfXMo/edit?tab=t.0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>See more</span>
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" aria-hidden="true">
+            <path d="M10 2H14V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M14 2L8.5 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M7 3H3.5C3.224 3 3 3.224 3 3.5V12.5C3 12.776 3.224 13 3.5 13H12.5C12.776 13 13 12.776 13 12.5V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+    </article>
+  </section>
+
+  <section class="card timeline-card" aria-labelledby="timeline-calendar-title">
+    <h2 id="timeline-calendar-title" class="timeline-title">Timeline calendar</h2>
+    <p class="timeline-subtitle">Proposed schedule for testing a new navigation.</p>
+    <div class="months-stack">
+      <article class="month-card" aria-label="May 2026" data-year="2026" data-month="5">
+        <h3 class="month-title">May 2026</h3>
+        <table class="month-table">
+          <thead>
+            <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td><td>1</td><td>2</td></tr>
+            <tr><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+            <tr><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td></tr>
+            <tr><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td></tr>
+            <tr><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td></tr>
+            <tr><td>31</td><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="month-card" aria-label="June 2026" data-year="2026" data-month="6">
+        <h3 class="month-title">June 2026</h3>
+        <table class="month-table">
+          <thead>
+            <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="empty">.</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+            <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+            <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+            <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
+            <tr><td>28</td><td>29</td><td>30</td><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="month-card" aria-label="July 2026" data-year="2026" data-month="7">
+        <h3 class="month-title">July 2026</h3>
+        <table class="month-table">
+          <thead>
+            <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="empty">.</td><td class="empty">.</td><td class="empty">.</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+            <tr><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td></tr>
+            <tr><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td></tr>
+            <tr><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td></tr>
+            <tr><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td class="empty">.</td></tr>
+          </tbody>
+        </table>
+      </article>
+    </div>
+    <p class="timeline-notes">Weekends and holidays are disabled for scheduling in this pass. Colored blocks indicate sequential test phases from May 26 onward.</p>
+  </section>
+</div>
+<script>
+  (function () {
+    const toIso = (dateObj) => {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d = String(dateObj.getDate()).padStart(2, "0");
+      return y + "-" + m + "-" + d;
+    };
+    const addDays = (dateObj, days) => {
+      const next = new Date(dateObj);
+      next.setDate(next.getDate() + days);
+      return next;
+    };
+    const phases = [
+      { id: "phase-1", weeks: 2, label: "Concept refinement, learning plan, recruiting, XR feedback" },
+      { id: "phase-2", weeks: 2, label: "Customer interviews, synthesis, ad-hoc concept refinement" },
+      { id: "phase-3", weeks: 1, label: "Concept refinement for second-round tests" },
+      { id: "phase-4", weeks: 2, label: "Customer interviews, synthesis, ad-hoc concept refinement" },
+      { id: "phase-5", weeks: 1, label: "Final refinement" }
+    ];
+
+    const phaseByDate = new Map();
+    const phaseLabelById = new Map(phases.map((phase) => [phase.id, phase.label]));
+    const startDate = new Date(2026, 4, 26); // May 26, 2026
+    let cursor = new Date(startDate);
+    phases.forEach((phase) => {
+      const phaseStart = new Date(cursor);
+      const daySpan = (phase.weeks * 7) - 1;
+      const phaseEnd = addDays(phaseStart, daySpan);
+      phase.start = new Date(phaseStart);
+      phase.end = new Date(phaseEnd);
+
+      for (let i = 0; i <= daySpan; i += 1) {
+        const day = addDays(phaseStart, i);
+        phaseByDate.set(toIso(day), phase.id);
+      }
+      cursor = addDays(phaseEnd, 1);
+    });
+
+    const holidays = new Set([
+      "2026-06-19" // Juneteenth
+    ]);
+    const todayIso = toIso(new Date());
+
+    document.querySelectorAll(".month-card").forEach((monthCard) => {
+      const year = Number(monthCard.getAttribute("data-year"));
+      const month = Number(monthCard.getAttribute("data-month"));
+      if (!year || !month) return;
+
+      monthCard.querySelectorAll("tbody td").forEach((td) => {
+        const raw = (td.textContent || "").trim();
+        const dayNum = Number(raw);
+        if (!dayNum || td.classList.contains("empty")) return;
+
+        const dateObj = new Date(year, month - 1, dayNum);
+        const weekday = dateObj.getDay();
+        const iso = toIso(dateObj);
+
+        td.setAttribute("data-date", iso);
+        td.innerHTML = '<div class="day-cell"><span>' + dayNum + '</span></div>';
+
+        const isWeekend = weekday === 0 || weekday === 6;
+        const isHoliday = holidays.has(iso);
+        const isToday = iso === todayIso;
+        if (isWeekend) td.classList.add("weekend");
+        if (isHoliday) td.classList.add("holiday");
+        if (isToday) td.classList.add("is-today");
+
+        const phaseId = phaseByDate.get(iso);
+        if (phaseId && !isWeekend && !isHoliday) {
+          td.classList.add("has-phase", phaseId);
+          const label = phaseLabelById.get(phaseId);
+          if (label) {
+            td.setAttribute("title", label);
+            td.setAttribute("data-tooltip", label);
+          }
+        }
+      });
+    });
+
+    document.querySelectorAll(".month-table td.has-phase").forEach((td) => {
+      const phaseClass = Array.from(td.classList).find((cls) => /^phase-\d+$/.test(cls));
+      if (!phaseClass) return;
+      const iso = td.getAttribute("data-date");
+      if (!iso) return;
+      const current = new Date(iso + "T00:00:00");
+      const prevIso = toIso(addDays(current, -1));
+      const nextIso = toIso(addDays(current, 1));
+      const prevCell = document.querySelector('.month-table td[data-date="' + prevIso + '"]');
+      const nextCell = document.querySelector('.month-table td[data-date="' + nextIso + '"]');
+      const prevConnected = !!(prevCell && prevCell.classList.contains("has-phase") && prevCell.classList.contains(phaseClass));
+      const nextConnected = !!(nextCell && nextCell.classList.contains("has-phase") && nextCell.classList.contains(phaseClass));
+      if (!prevConnected) td.classList.add("phase-start");
+      if (!nextConnected) td.classList.add("phase-end");
+    });
+
+    const monthsStack = document.querySelector(".months-stack");
+    const phaseCells = Array.from(document.querySelectorAll(".month-table td.has-phase"));
+    const clearPhaseHover = () => {
+      phaseCells.forEach((cell) => cell.classList.remove("phase-hover-match"));
+      if (monthsStack) monthsStack.classList.remove("phase-hover-active");
+    };
+    phaseCells.forEach((cell) => {
+      cell.addEventListener("mouseenter", () => {
+        const phaseClass = Array.from(cell.classList).find((cls) => /^phase-\d+$/.test(cls));
+        if (!phaseClass) return;
+        phaseCells.forEach((entry) => {
+          entry.classList.toggle("phase-hover-match", entry.classList.contains(phaseClass));
+        });
+        if (monthsStack) monthsStack.classList.add("phase-hover-active");
+      });
+      cell.addEventListener("mouseleave", clearPhaseHover);
+    });
+    if (monthsStack) {
+      monthsStack.addEventListener("mouseleave", clearPhaseHover);
+    }
+  })();
+</script>
+</body>
+</html>
